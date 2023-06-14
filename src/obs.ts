@@ -6,6 +6,22 @@ const connect = async (socket: OBSWebSocket) => {
   await socket.connect(undefined, 'password')
 }
 
+const waitToConnect = async (socket: OBSWebSocket) => {
+  let waiting = false
+  while (true) {
+    try {
+      await connect(socket)
+      console.log('Connected')
+      return
+    } catch {
+      if (!waiting) {
+        console.log('Waiting...')
+        waiting = true
+      }
+    }
+  }
+}
+
 const checkConnection = async (): Promise<boolean> => {
   if (!websocket) {
     return false
@@ -23,7 +39,7 @@ export const getObsWebsocket = async (): Promise<OBSWebSocket> => {
   if (!websocket || !(await checkConnection())) {
     console.log('Connecting to OBS')
     const obs = new OBSWebSocket()
-    await connect(obs)
+    await waitToConnect(obs)
     websocket = obs
   }
   return websocket
