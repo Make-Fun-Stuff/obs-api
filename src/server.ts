@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import { OBSRequestTypes } from 'obs-websocket-js'
 import { getObsWebsocket } from './obs'
-import { usage } from './cpu'
+import { cpu, memory } from './hardware'
 import cors from 'cors'
 
 const ip = require('ip')
@@ -33,7 +33,7 @@ export const start = (port: number) => {
 
   app.get('/machine', (_, response) => {
     response.setHeader('Content-Type', 'application/json')
-    response.status(200).send(JSON.stringify({ cpu: usage }))
+    response.status(200).send(JSON.stringify({ cpu, memory }))
   })
 
   supportedOBSCalls.forEach((obsCall) => {
