@@ -12,6 +12,7 @@ const supportedOBSCalls: Array<keyof OBSRequestTypes> = [
   'StartVirtualCam',
   'StopVirtualCam',
   'SetCurrentProgramScene',
+  'GetCurrentProgramScene',
 ]
 
 export const start = (port: number) => {
